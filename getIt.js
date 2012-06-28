@@ -6,6 +6,8 @@ window.addEventListener("DOMContentLoaded", function(){
 		var theElement = document.getElementById(n);
 		return theElement;
 	}
+	
+
 	//Create select field element and populate with options.
 	var makeDrop = function (){
 		var formTag = document.getElementsByTagName("form"); //formTag is array
@@ -37,16 +39,10 @@ window.addEventListener("DOMContentLoaded", function(){
 	var toggleContr = function (n) {
 		switch(n) {
 			case "on":
-				elId("taskForm").style.display = "none";
-				elId("clear").style.display = "inline";
-				elId("displayData").style.display = "none";
-				elId("addOne").style.display = "inline";
+				elId("displayData2").style.display = "none";
 				break;
 			case "off":
-				elId("taskForm").style.display = "block";
-				elId("clear").style.display = "inline";
-				elId("displayData").style.display = "inline";
-				elId("addOne").style.display = "none";
+				elId("displayData2").style.display = "inline";
 				elId("items").style.display = "none";
 				
 				break;
@@ -66,23 +62,6 @@ window.addEventListener("DOMContentLoaded", function(){
 				//Existing key will be saved when edited
 				id = key;
 				}
-				
-		//Get all form field values and store in object
-		//Object properties contain array w/from label and input value
-		radiobox();
-		var item = {};
-		item.name = ["Name of Task: ", elId("taskName").value];
-		item.category = ["Category: ", whichCategoryValue];
-		item.priorityLevel = ["Priority: ", elId("priorities").value];
-		item.startUp = ["Starting Date of Task: ", elId("taskDate").value];
-		item.ending = ["Ending Date of Task: ", elId("taskEnd").value];
-		item.alertOption = ["Type of Alert: ", elId("alertWay").value];
-		item.note = ["Notes", elId("notes").value];
-	
-		//Save data into Local Storage: stringify to convert object to string
-		localStorage.setItem(id, JSON.stringify(item));		
-		alert("Task Saved!");
-		window.location.reload();
 	}
 	
 	
@@ -114,7 +93,6 @@ window.addEventListener("DOMContentLoaded", function(){
 			var obj = JSON.parse(value);
 			var makeSubList = document.createElement("ul");
 			makeLi.appendChild(makeSubList);
-			getImage(obj.priorityLevel[1], makeSubList);
 			for(var r in obj) {
 				var makeSubLi = document.createElement("li");
 				makeSubList.appendChild(makeSubLi);
@@ -123,9 +101,8 @@ window.addEventListener("DOMContentLoaded", function(){
 				makeSubList.appendChild(linksLi);
 				
 				}
-				
 				//Create edit and delete buttons for items in local storage
-				makeItemLinks(localStorage.key(i), linksLi); 
+				makeItemLinks(localStorage.key(i), linksLi);
 		}
 	}
 	
@@ -210,63 +187,10 @@ window.addEventListener("DOMContentLoaded", function(){
 		editSubmit.addEventListener("click", validate);
 		editSubmit.key = this.key;
 	}
-	
-	var validate = function (e) {
-		//Define elements
-		var getPriority = elId("priorities");
-		var getNot = elId("taskName");
-		var getStart = elId("taskDate");
-		var getEnd = elId("taskEnd");
 		
-		//Reset error messages
-		errMsg.innerHTML = "";
-		getPriority.style.border = "1px solid black";
-		getNot.style.border = "1px solid black";
-		getStart.style.border = "1px solid black";
-		getEnd.style.border = "1px solid black";
-
-
-		//Error messages array
-		var message = [];
-		
-		//Priority validate
-		if(getPriority.value === "--Choose Priority Level--") {
-			var priorityError = "Please select priority level.".fontcolor("red").bold();
-			getPriority.style.border = "2px solid red";
-			message.push(priorityError);
-		}
-		//Name of Task validate
-		if(getNot.value === "") {
-			var notError = "Please enter the name of task.".fontcolor("red").bold();
-			getNot.style.border = "2px solid red";
-			message.push(notError);
-		}
-		//Start date validate
-		if(getStart.value === "") {
-			var startError = "Please select a start date.".fontcolor("red").bold();
-			getStart.style.border = "2px solid red";
-			message.push(startError);
-		}
-		//End date validate
-		if(getEnd.value === "") {
-			var endError = "Please select an ending date.".fontcolor("red").bold();
-			getEnd.style.border = "2px solid red";
-			message.push(endError);
-		}
-		//Explains errors
-		if(message.length >=1) {
-			for(var i = 0, j = message. length; i < j; i++){
-				var txt = document.createElement("li");
-				txt.innerHTML = message[i];
-				errMsg.appendChild(txt);
-			}
-		e.preventDefault();
-		return false;	
-		}
-		else{
-			storeData(this.key);
-			}		
-	}
+	//Set Link & Submit Click Events
+	var displayLink2 = elId("displayData2");
+	displayLink2.addEventListener("click", getData);
 	
 	var deleteItem = function () {
 		var ask = confirm("Are you sure you want to delete this task?");
@@ -281,32 +205,5 @@ window.addEventListener("DOMContentLoaded", function(){
 			return false;
 		}
 	}
-	
-	var clearLocal = function () {
-		if(localStorage.length === 0){
-			alert("There is no data to clear.")
-		}
-		else{
-			localStorage.clear();
-			alert("All tasks have been cleared.");
-			window.location.reload();
-			return false;
-		}
-	
-	}
-	
-	//Variable defaults
-	var priorityGroup = ["--Choose Priority Level--","High","Medium","Low"];
-	var whichCategoryValue;
-	makeDrop();
-	errMsg = elId("errors");
-	
-	//Set Link & Submit Click Events
-	var displayLink = elId("displayData");
-	displayLink.addEventListener("click", getData);
-	var clearLink = elId("clear");
-	clearLink.addEventListener("click", clearLocal);
-	var submit1 = elId("submit");
-	submit1.addEventListener("click", validate);
 	
 });

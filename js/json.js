@@ -48,7 +48,7 @@ var json = {
 		"alertOption": ["Type of Alert: ", "1"],
 		"note": ["Notes: ", "Prepare for the new releases, and make sure it's perfect."]
 	},
-	
+		
 	"task6": {
 		"name": ["Name of Task: ", "Movie Night"],
 		"category": ["Category: ", "Home"],
@@ -192,5 +192,6 @@ var json = {
 		"ending": ["Ending Date of Task: ", "01-01-2013"],
 		"alertOption": ["Type of Alert: ", "1"],
 		"note": ["Notes: ", "Fix errors and make sure layout is perfect."]
-	},
+
+	}
 }
