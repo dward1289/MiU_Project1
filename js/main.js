@@ -297,7 +297,7 @@ window.addEventListener("DOMContentLoaded", function(){
 	
 	//Variable defaults
 	var priorityGroup = ["--Choose Priority Level--","High","Medium","Low"];
-	var whichCategoryValue;
+	var whichCategoryValue = "No Category Selected";
 	makeDrop();
 	errMsg = elId("errors");
 	
